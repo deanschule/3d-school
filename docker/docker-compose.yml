@@ -1,0 +1,56 @@
+version: '3'
+
+volumes:
+  keycloak_data:
+  postgres_data_keycloak_db:
+  postgres_data:
+
+services:
+  keycloak_lf12:
+    image: quay.io/keycloak/keycloak:23.0
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./imports:/opt/keycloak/data/import
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloakdb_svr
+      KC_DB_URL_DATABASE: keycloakdb
+      KC_DB_PASSWORD: postgres_pass
+      KC_DB_USERNAME: postgres_user
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "9090:8080"
+    depends_on:
+      keycloakdb_svr:
+        condition: service_healthy
+
+  keycloakdb_svr:
+    image: postgres:14.2
+    volumes:
+      - postgres_data_keycloak_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_pass
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "9433:5432"
+
+  postgres_db:
+    image: postgres:16.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgresdb
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_pass
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "5432:5432"
