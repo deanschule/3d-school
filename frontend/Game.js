@@ -113,6 +113,14 @@ export default function Game() {
 
 			} );
 
+	var el = document.getElementById( 'overlay' );
+
+	el.addEventListener( 'click', function () {
+
+		scope.renderer.domElement.requestPointerLock();
+
+	} );
+
 			window.addEventListener( 'resize', onWindowResize );
 
 			function onWindowResize() {
