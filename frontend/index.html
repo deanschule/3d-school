@@ -161,6 +161,13 @@ import { Capsule } from 'three/addons/math/Capsule.js';
 
 			}
 
+			const el = document.getElementById('overlay');
+
+			el.addEventListener('click', function () {
+				renderer.domElement.requestPointerLock();
+				el.style.display = 'none';
+			});
+
 			function playerCollisions() {
 
 				const result = worldOctree.capsuleIntersect( playerCollider );
