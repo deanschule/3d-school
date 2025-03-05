@@ -9,7 +9,7 @@ import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 import { Capsule } from 'three/addons/math/Capsule.js';
 
-//import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 //import Box from './Box.js';
 //import Player from './Player.js';
@@ -55,12 +55,12 @@ export default function Game() {
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild(renderer.domElement);
 
-	/*
+	
 	const stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	container.appendChild( stats.domElement );
-	*/
+	
 
 	const GRAVITY = 30;
 
@@ -174,6 +174,7 @@ export default function Game() {
 
 		camera.position.copy(playerCollider.end);
 		playerPosition = camera.position;
+
 		//console.log(camera.position);
 	}
 
@@ -239,9 +240,10 @@ export default function Game() {
 
 	}
 
-	const loader = new GLTFLoader().setPath('./models/school/');
+	//const loader = new GLTFLoader().setPath('./models/school/');
 
 	//load school
+	 /*
 	loader.load('school.gltf', (gltf) => {
 		gltf.scene.scale.set(4, 4, 4);
 		gltf.scene.name = 'school';
@@ -279,6 +281,50 @@ export default function Game() {
 				helper.visible = value;
 
 			} );*/
+
+	//});*/
+
+	//Test
+	const loader = new GLTFLoader().setPath('./models/Test/Test/');
+
+	//load school
+	loader.load('school.gltf', (gltf) => {
+		gltf.scene.scale.set(4, 4, 4);
+		gltf.scene.name = 'school';
+		scene.add(gltf.scene);
+
+		worldOctree.fromGraphNode(gltf.scene);
+
+		gltf.scene.traverse(child => {
+
+			if (child.isMesh) {
+
+				child.castShadow = true;
+				child.receiveShadow = true;
+
+				if (child.material.map) {
+
+					child.material.map.anisotropy = 4;
+
+				}
+
+			}
+
+		});
+
+		const helper = new OctreeHelper(worldOctree);
+		helper.name = 'schoolOctree'
+		helper.visible = false;
+		scene.add(helper);
+
+		
+		const gui = new GUI( { width: 200 } );
+		gui.add( { debug: false }, 'debug' )
+			.onChange( function ( value ) {
+
+				helper.visible = value;
+
+			} );
 
 	});
 
