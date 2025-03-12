@@ -55,12 +55,12 @@ export default function Game() {
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild(renderer.domElement);
 
-	
+
 	const stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
-	container.appendChild( stats.domElement );
-	
+	container.appendChild(stats.domElement);
+
 
 	const GRAVITY = 30;
 
@@ -240,16 +240,28 @@ export default function Game() {
 
 	}
 
-	//const loader = new GLTFLoader().setPath('./models/school/');
+	//
+	//const doorePositions = {objectName: "", x: 0, y :0, z: 0}
 
-	//load school
-	 /*
+	let arrayCount = 0;
+
+	const rows = 10;
+	const cols = 3;
+
+	const doorePositions = Array(rows).fill().map(() => Array(cols).fill(0));
+
+	const doorePositionsName = Array(rows).fill("");
+
+	//GLTF Loader
+	const loader = new GLTFLoader().setPath('./models/school/');
+
+	//load school with GLTF Loader
 	loader.load('school.gltf', (gltf) => {
 		gltf.scene.scale.set(4, 4, 4);
 		gltf.scene.name = 'school';
 		scene.add(gltf.scene);
 
-		worldOctree.fromGraphNode(gltf.scene);
+		//worldOctree.fromGraphNode(gltf.scene);
 
 		gltf.scene.traverse(child => {
 
@@ -260,10 +272,53 @@ export default function Game() {
 
 				if (child.material.map) {
 
-					child.material.map.anisotropy = 4;
-
+					child.material.map.anisotropy = 8;
 				}
 
+				if (child.name.includes('border')) {
+					//Add collidor
+					worldOctree.fromGraphNode(child);
+
+					const helper = new OctreeHelper(worldOctree);
+					helper.name = 'schoolOctree' + child.name;
+					helper.visible = true;
+					scene.add(helper);
+
+					doorePositionsName[arrayCount] = child.name;
+
+
+					doorePositions[arrayCount][0] = child.position.x;
+					doorePositions[arrayCount][1] = child.position.y;
+					doorePositions[arrayCount][2] = child.position.z;
+					arrayCount++;
+					//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
+
+					console.log(child.name + " position = ");
+					console.log(child.position)
+				}
+
+				if (child.name.includes('Plane')) {
+					//Add collidor
+					worldOctree.fromGraphNode(child);
+
+					const helper = new OctreeHelper(worldOctree);
+					helper.name = 'schoolOctree' + child.name;
+					helper.visible = false;
+				}
+			}
+
+			if (child.name === "glass_door_1" || child.name === "glass_door_2") {
+
+				//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
+
+				doorePositionsName[arrayCount] = child.name;
+				doorePositions[arrayCount][0] = child.position.x;
+				doorePositions[arrayCount][1] = child.position.y;
+				doorePositions[arrayCount][2] = child.position.z;
+				arrayCount++;
+
+				console.log(child.name + " position = ");
+				console.log(child.position);
 			}
 
 		});
@@ -272,59 +327,18 @@ export default function Game() {
 		helper.name = 'schoolOctree'
 		helper.visible = false;
 		scene.add(helper);
+
+		console.log(doorePositions);
+		console.log(doorePositionsName);
 
 		/*
 		const gui = new GUI( { width: 200 } );
 		gui.add( { debug: false }, 'debug' )
 			.onChange( function ( value ) {
-
+ 
 				helper.visible = value;
-
+ 
 			} );*/
-
-	//});*/
-
-	//Test
-	const loader = new GLTFLoader().setPath('./models/Test/Test/');
-
-	//load school
-	loader.load('school.gltf', (gltf) => {
-		gltf.scene.scale.set(4, 4, 4);
-		gltf.scene.name = 'school';
-		scene.add(gltf.scene);
-
-		worldOctree.fromGraphNode(gltf.scene);
-
-		gltf.scene.traverse(child => {
-
-			if (child.isMesh) {
-
-				child.castShadow = true;
-				child.receiveShadow = true;
-
-				if (child.material.map) {
-
-					child.material.map.anisotropy = 4;
-
-				}
-
-			}
-
-		});
-
-		const helper = new OctreeHelper(worldOctree);
-		helper.name = 'schoolOctree'
-		helper.visible = false;
-		scene.add(helper);
-
-		
-		const gui = new GUI( { width: 200 } );
-		gui.add( { debug: false }, 'debug' )
-			.onChange( function ( value ) {
-
-				helper.visible = value;
-
-			} );
 
 	});
 
@@ -371,68 +385,50 @@ export default function Game() {
 		}
 	}
 
-	function getDoor() {
+	function getDoor(doorName) {
+
+		const myArray = doorName.split("_");
+		doorName = myArray[myArray.length - 1];
+		//console.log(doorName);
+
 		scene.children.forEach(child => {
 
 			if (child.name === "school") {
 				child.children.forEach(grandChildren => {
 
-					switch (grandChildren.name) {
-						case "door_left":
-							leftDoor(grandChildren);
+					switch (doorName) {
+						case "1":
+							if (grandChildren.name == "glass_door_1") { glasDoor(grandChildren); }
 							break;
-						case "door_right":
-							rightDoor(grandChildren);
+						case "2":
+							if (grandChildren.name == "glass_door_2") { glasDoor(grandChildren); }
 							break;
-						case "door_left001":
-							leftDoor(grandChildren);
+						case "entryright":
+							if (grandChildren.name == "door_left001") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right001") { leftDoor(grandChildren); }
 							break;
-						case "door_right001":
-							rightDoor(grandChildren);
+						case "entryleft":
+							if (grandChildren.name == "door_left") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right") { leftDoor(grandChildren); }
 							break;
-						case "door_left002":
-							leftDoor(grandChildren);
+						case "entryright001":
+							if (grandChildren.name == "door_left002") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right002") { leftDoor(grandChildren); }
 							break;
-						case "door_right002":
-							rightDoor(grandChildren);
+						case "entryleft001":
+							if (grandChildren.name == "door_left003") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right003") { leftDoor(grandChildren); }
 							break;
-						case "door_left003":
-							leftDoor(grandChildren);
+						case "entryright002":
+							if (grandChildren.name == "door_left005") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right005") { leftDoor(grandChildren); }
 							break;
-						case "door_right003":
-							rightDoor(grandChildren);
-							break;
-						case "door_left004":
-							leftDoor(grandChildren);
-							break;
-						case "door_right004":
-							rightDoor(grandChildren);
-							break;
-						case "door_left005":
-							leftDoor(grandChildren);
-							break;
-						case "door_right005":
-							rightDoor(grandChildren);
-							break;
-						case "glass_door_1":
-							glasDoor(grandChildren);
-							break;
-						case "glass_door_2":
-							glasDoor(grandChildren);
-							break;
-
-						case "":
-							// code block
-							break;
-
-						default:
-							// code block
+						case "entryleft002":
+							if (grandChildren.name == "door_left004") { rightDoor(grandChildren); }
+							if (grandChildren.name == "door_right004") { leftDoor(grandChildren); }
 							break;
 					}
-
 				});
-
-				//
 			}
 		});
 	}
@@ -456,7 +452,24 @@ export default function Game() {
 		}
 
 
-		getDoor();
+		//playerPosition
+		for (let i = 0; i < doorePositions.length; i++) {
+
+			if (doorePositions[i][0] - 0.3 < playerPosition.x && doorePositions[i][0] + 2 > playerPosition.x) {
+				/*console.log(doorePositionsName[i]);
+				console.log('++++----');
+
+				getDoor(doorePositionsName[i]);*/
+			}
+/*
+			console.log(doorePositionsName[3]);
+			console.log(doorePositions[3][0] + 2);
+			console.log(doorePositions[3][0] - 0.3);*/
+			console.log(playerPosition);
+
+		}
+
+		//getDoor("glass_door_2");
 
 		renderer.render(scene, camera);
 
