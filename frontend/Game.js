@@ -253,7 +253,7 @@ export default function Game() {
 	const doorePositionsName = Array(rows).fill("");
 
 	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/school/');
+	const loader = new GLTFLoader().setPath('./models/school/School/');
 
 	//load school with GLTF Loader
 	loader.load('school.gltf', (gltf) => {
@@ -450,24 +450,49 @@ export default function Game() {
 			teleportPlayerIfOob();
 
 		}
+		let testDor = 1;
 
-
-		//playerPosition
 		for (let i = 0; i < doorePositions.length; i++) {
 
-			if (doorePositions[i][0] - 0.3 < playerPosition.x && doorePositions[i][0] + 2 > playerPosition.x) {
-				/*console.log(doorePositionsName[i]);
-				console.log('++++----');
-
-				getDoor(doorePositionsName[i]);*/
+			if (doorePositionsName[i].includes("left")) {
+				if (doorePositions[i][0] + 0.4 > playerPosition.x && doorePositions[i][0] - 1.8 < playerPosition.x && doorePositions[i][2] - 0.4 < playerPosition.z && doorePositions[i][2] + 5 > playerPosition.z) {
+					getDoor(doorePositionsName[i]);
+				}
 			}
-/*
-			console.log(doorePositionsName[3]);
-			console.log(doorePositions[3][0] + 2);
-			console.log(doorePositions[3][0] - 0.3);*/
-			console.log(playerPosition);
+
+
+			if (doorePositionsName[i].includes("right")) {
+				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 1.8 > playerPosition.x && doorePositions[i][2] - 0.4 < playerPosition.z && doorePositions[i][2] + 5 > playerPosition.z) {
+					getDoor(doorePositionsName[i]);
+				}
+			}
+
+			if (doorePositionsName[i] == "glass_door_1") {
+
+				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] + 2.1 > playerPosition.z && doorePositions[i][2] - 0.3 < playerPosition.z) {
+					getDoor(doorePositionsName[i]);
+				}
+			}
+			
+
+			if (doorePositionsName[i] == "glass_door_2") {
+
+				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] - 2 > playerPosition.z && doorePositions[i][2] + 2 < playerPosition.z) {
+					getDoor(doorePositionsName[i]);
+				}
+			}
+
 
 		}
+
+		//getDoor(doorePositionsName[testDor]);
+		/*
+				console.log(doorePositionsName[testDor]);
+				console.log(doorePositions[testDor][0]);
+				console.log(doorePositions[testDor][2]);
+				console.log("Player " + playerPosition.x);
+				console.log("Player " + playerPosition.z);*/
+				
 
 		//getDoor("glass_door_2");
 
