@@ -34,14 +34,14 @@ export default function Game() {
 	directionalLight.castShadow = true;
 	directionalLight.shadow.camera.near = 0.01;
 	directionalLight.shadow.camera.far = 500;
-	directionalLight.shadow.camera.right = 30;
-	directionalLight.shadow.camera.left = - 30;
-	directionalLight.shadow.camera.top = 30;
-	directionalLight.shadow.camera.bottom = - 30;
-	directionalLight.shadow.mapSize.width = 1024;
-	directionalLight.shadow.mapSize.height = 1024;
-	directionalLight.shadow.radius = 4;
-	directionalLight.shadow.bias = - 0.00006;
+	directionalLight.shadow.camera.right = 18;
+	directionalLight.shadow.camera.left = - 18;
+	directionalLight.shadow.camera.top = 18;
+	directionalLight.shadow.camera.bottom = - 18;
+	directionalLight.shadow.mapSize.width = 5000;
+	directionalLight.shadow.mapSize.height = 5000;
+	directionalLight.shadow.radius = 20;
+	directionalLight.shadow.bias = - 0.0006;
 	scene.add(directionalLight);
 
 	const container = document.getElementById('container');
@@ -51,16 +51,16 @@ export default function Game() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setAnimationLoop(animate);
 	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = THREE.VSMShadowMap;
+	renderer.shadowMap.type = THREE.ShadowMap;
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild(renderer.domElement);
 
-
+/*
 	const stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';
 	container.appendChild(stats.domElement);
-
+*/
 
 	const GRAVITY = 30;
 
@@ -281,7 +281,8 @@ export default function Game() {
 
 					const helper = new OctreeHelper(worldOctree);
 					helper.name = 'schoolOctree' + child.name;
-					helper.visible = true;
+					//for debug set to true:
+					helper.visible = false;
 					scene.add(helper);
 
 					doorePositionsName[arrayCount] = child.name;
@@ -397,12 +398,12 @@ export default function Game() {
 				child.children.forEach(grandChildren => {
 
 					switch (doorName) {
-						case "1":
+						/*case "1":
 							if (grandChildren.name == "glass_door_1") { glasDoor(grandChildren); }
 							break;
 						case "2":
 							if (grandChildren.name == "glass_door_2") { glasDoor(grandChildren); }
-							break;
+							break;*/
 						case "entryright":
 							if (grandChildren.name == "door_left001") { rightDoor(grandChildren); }
 							if (grandChildren.name == "door_right001") { leftDoor(grandChildren); }
@@ -418,7 +419,7 @@ export default function Game() {
 						case "entryleft001":
 							if (grandChildren.name == "door_left003") { rightDoor(grandChildren); }
 							if (grandChildren.name == "door_right003") { leftDoor(grandChildren); }
-							break;
+							break;/*
 						case "entryright002":
 							if (grandChildren.name == "door_left005") { rightDoor(grandChildren); }
 							if (grandChildren.name == "door_right005") { leftDoor(grandChildren); }
@@ -426,7 +427,7 @@ export default function Game() {
 						case "entryleft002":
 							if (grandChildren.name == "door_left004") { rightDoor(grandChildren); }
 							if (grandChildren.name == "door_right004") { leftDoor(grandChildren); }
-							break;
+							break;*/
 					}
 				});
 			}
@@ -455,34 +456,31 @@ export default function Game() {
 		for (let i = 0; i < doorePositions.length; i++) {
 
 			if (doorePositionsName[i].includes("left")) {
-				if (doorePositions[i][0] + 0.4 > playerPosition.x && doorePositions[i][0] - 1.8 < playerPosition.x && doorePositions[i][2] - 0.4 < playerPosition.z && doorePositions[i][2] + 5 > playerPosition.z) {
+				if (doorePositions[i][0] + 0.4 > playerPosition.x && doorePositions[i][0] - 1.8 < playerPosition.x && doorePositions[i][2] - 0.1 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
 					getDoor(doorePositionsName[i]);
 				}
 			}
 
 
 			if (doorePositionsName[i].includes("right")) {
-				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 1.8 > playerPosition.x && doorePositions[i][2] - 0.4 < playerPosition.z && doorePositions[i][2] + 5 > playerPosition.z) {
+				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 1.8 > playerPosition.x && doorePositions[i][2] - 0.1 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
 					getDoor(doorePositionsName[i]);
 				}
 			}
-
+/*
 			if (doorePositionsName[i] == "glass_door_1") {
 
 				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] + 2.1 > playerPosition.z && doorePositions[i][2] - 0.3 < playerPosition.z) {
 					getDoor(doorePositionsName[i]);
 				}
 			}
-			
 
 			if (doorePositionsName[i] == "glass_door_2") {
 
 				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] - 2 > playerPosition.z && doorePositions[i][2] + 2 < playerPosition.z) {
 					getDoor(doorePositionsName[i]);
 				}
-			}
-
-
+			}*/
 		}
 
 		//getDoor(doorePositionsName[testDor]);
