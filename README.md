@@ -21,3 +21,5 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 ```dotenv
 Your path \3d-school\frontend> npx vite
 ```
+## story points
+Pro Story Point ist ein zeitlicher Aufwand von 8 Stunden bzw. einen Arbeitstag vorgesehen.
