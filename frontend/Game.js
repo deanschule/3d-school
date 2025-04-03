@@ -253,7 +253,7 @@ export default function Game() {
 	const doorePositionsName = Array(rows).fill("");
 
 	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/school/School/');
+	const loader = new GLTFLoader().setPath('./models/school/Blender Models(1)/Blender Models/');
 
 	//load school with GLTF Loader
 	loader.load('school.gltf', (gltf) => {
