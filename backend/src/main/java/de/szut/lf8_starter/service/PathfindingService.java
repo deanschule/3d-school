@@ -3,23 +3,31 @@ package de.szut.lf8_starter.service;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PathfindingService {
 
-    private static Map<String, List<String>> roomGraph = Map.of(
+    private Map<String, List<String>> roomGraph = Map.of(
             "001", List.of("002"),
             "002", List.of("001", "002B"),
-            "002B", List.of("002", "003", "007","008","009"),
-            "003", List.of("002B", "004","007","008", "009"),
-            "004", List.of("003", "009","008","007"),
-            "005", List.of("007"),
-            "007", List.of("005", "002B"),
-            "008", List.of("007", "009"),
-            "009", List.of("008", "004")
+            "002B", List.of("002", "003", "007","008","009","010"),
+            "003", List.of("002B", "004","007","008", "009","010"),
+            "004", List.of("003", "009","010","008","007"),
+            "005|006", List.of("007"),
+            "007", List.of("005", "006", "002B","008","003","004"),
+            "008", List.of("007", "009", "010", "002B", "003", "004"),
+            "009", List.of("008", "004","003","002B"),
+            "010", List.of("008", "004","003","002B")
     );
 
-    public static List<String> findShortestPath(Map<String, List<String>> graph, String start, String target) {
+    public String calculatePath(String start, String target){
+        return String.join(",",findShortestPath(roomGraph, start, target));
+    }
+
+
+
+    private List<String> findShortestPath(Map<String, List<String>> graph, String start, String target) {
         Queue<List<String>> queue = new LinkedList<>();
         Set<String> visited = new HashSet<>();
         queue.add(List.of(start));
@@ -44,13 +52,6 @@ public class PathfindingService {
         return List.of(); // No path found
     }
 
-
-    public static void main(String[] args) {
-        List<String> route = findShortestPath(roomGraph, "001", "008");
-        route.forEach(System.out::println);
-        // Output: [001, 002, 002B, 003, 004, 009]
-
-    }
 
 
 }
