@@ -438,8 +438,6 @@ export default function Game() {
 		});
 	}
 
-	let Test_pathString = "a,b,c,h";
-
 	function showPath(pathString) {
 
 		let pathPoints = Test_pathString.split(",");
