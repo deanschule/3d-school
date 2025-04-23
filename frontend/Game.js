@@ -11,6 +11,10 @@ import { Capsule } from 'three/addons/math/Capsule.js';
 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
+import { MeshLine, MeshLineRaycast } from 'three.meshline';
+
+import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
+
 //import Box from './Box.js';
 //import Player from './Player.js';
 
@@ -55,12 +59,12 @@ export default function Game() {
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild(renderer.domElement);
 
-/*
-	const stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	container.appendChild(stats.domElement);
-*/
+	/*
+		const stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		container.appendChild(stats.domElement);
+	*/
 
 	const GRAVITY = 30;
 
@@ -434,8 +438,89 @@ export default function Game() {
 		});
 	}
 
+	let Test_pathString = "a,b,c,h";
+
+	function showPath(pathString) {
+
+		let pathPoints = Test_pathString.split(",");
+
+		//Get coordinates
+		scene.children.forEach(child => {
+
+			if (child.name === "school") {
+
+				for (let i = 0; i < pathPoints.length - 1; i++) {
+
+					child.children.forEach(grandChildren => {
+
+						if (grandChildren.name == pathPoints[i]) {
+							pathPoints[i] = grandChildren.position;
+						}
+					});
+				}
+			}
+		});
+
+		//show way to points
+		const geometry = new MeshLineGeometry();
+
+		const geometryPoints = [];
+
+		for (let i = 0; i < pathPoints.length - 1; i++) {
+
+			geometryPoints.push(new THREE.Vector3(pathPoints[i]));
+		}
+
+
+	
+		const mesh = new THREE.Mesh(geometry, lineMaterial);
+	
+		scene.add(mesh);
+	}
+
+	/*
+	const geometry = new MeshLineGeometry();
+
+	const geometryPoints = [
+		new THREE.Vector3(- 10, 0.7, 0),
+		new THREE.Vector3(0, 0.2, 0),
+		new THREE.Vector3(10, 0.2, 5)
+	];
+
+	geometryPoints.push(new THREE.Vector3(5, 10, 10));
+
+	geometry.setPoints(geometryPoints);
+
+	const lineMaterial = new MeshLineMaterial({
+		color: new THREE.Color(0x4BA4FB),
+		lineWidth: 1,
+		resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
+		dashArray: 0.2
+	});
+	
+
+	lineMaterial.transparent = true;
+	lineMaterial.depthTest = true;
+
+	const mesh = new THREE.Mesh(geometry, lineMaterial);
+
+	scene.add(mesh);*/
+
+	//Material for path
+	const lineMaterial = new MeshLineMaterial({
+		color: new THREE.Color(0x4BA4FB),
+		lineWidth: 1,
+		resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
+		dashArray: 0.2
+	});
+
+	lineMaterial.transparent = true;
+	lineMaterial.depthTest = true;
 
 	function animate() {
+
+		//Animate path
+		lineMaterial.dashOffset -= 0.003;
 
 		const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
 
@@ -467,20 +552,20 @@ export default function Game() {
 					getDoor(doorePositionsName[i]);
 				}
 			}
-/*
-			if (doorePositionsName[i] == "glass_door_1") {
-
-				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] + 2.1 > playerPosition.z && doorePositions[i][2] - 0.3 < playerPosition.z) {
-					getDoor(doorePositionsName[i]);
-				}
-			}
-
-			if (doorePositionsName[i] == "glass_door_2") {
-
-				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] - 2 > playerPosition.z && doorePositions[i][2] + 2 < playerPosition.z) {
-					getDoor(doorePositionsName[i]);
-				}
-			}*/
+			/*
+						if (doorePositionsName[i] == "glass_door_1") {
+			
+							if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] + 2.1 > playerPosition.z && doorePositions[i][2] - 0.3 < playerPosition.z) {
+								getDoor(doorePositionsName[i]);
+							}
+						}
+			
+						if (doorePositionsName[i] == "glass_door_2") {
+			
+							if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] - 2 > playerPosition.z && doorePositions[i][2] + 2 < playerPosition.z) {
+								getDoor(doorePositionsName[i]);
+							}
+						}*/
 		}
 
 		//getDoor(doorePositionsName[testDor]);
@@ -490,7 +575,7 @@ export default function Game() {
 				console.log(doorePositions[testDor][2]);
 				console.log("Player " + playerPosition.x);
 				console.log("Player " + playerPosition.z);*/
-				
+
 
 		//getDoor("glass_door_2");
 
