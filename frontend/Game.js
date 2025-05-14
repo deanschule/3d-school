@@ -450,7 +450,7 @@ export default function Game() {
 				return response.split(",");
 			})
 	}
-	console.log(pathPoints("001", "004"));
+	console.log(getPath({ startPoint: "001", targetPoint: "004" }));
 
 	function showPath(startPoint, targetPoint) {
 
