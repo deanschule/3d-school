@@ -15,6 +15,7 @@ import { MeshLine, MeshLineRaycast } from 'three.meshline';
 
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import {setupSearchField} from "./RoomHandler";
+import {getPath} from "./services/PathService";
 
 //import Box from './Box.js';
 //import Player from './Player.js';
@@ -439,9 +440,18 @@ export default function Game() {
 		});
 	}
 
-	function showPath(pathString) {
+	function showPath(startPoint, targetPoint) {
 
-		let pathPoints = Test_pathString.split(",");
+		const pathPoints = async (startPoint, targetPoint)=>{
+			await getPath(startPoint, targetPoint)
+				.catch(error => {
+					console.error("Error fetching path from backend :", error);
+				})
+				.then(response => {
+					console.log("Path from backend: ", response);
+						return response.split(",");
+				})
+		}
 
 		//Get coordinates
 		scene.children.forEach(child => {
