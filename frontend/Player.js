@@ -1,4 +1,4 @@
-
+import { setupSearchField } from './InputHandler.js'
 import Box from './Box.js';
 
 function Player() {
@@ -18,6 +18,7 @@ function Player() {
 		right: false
 	};
 
+	setupSearchField();
 }
 
 Object.assign( Player.prototype, Box.prototype, {

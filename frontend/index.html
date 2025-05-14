@@ -35,6 +35,9 @@
 			}
 		</script>
 
+		<script type="module" src="./Player.js"></script>
+		<script type="module" src="./Game.js"></script>
+
 		<script type="module">
 
 import * as THREE from 'three';
@@ -215,7 +218,6 @@ import { Capsule } from 'three/addons/math/Capsule.js';
 				playerCollisions();
 
 				camera.position.copy( playerCollider.end );
-				console.log(camera.position);
 			}
 
 			function getForwardVector() {
