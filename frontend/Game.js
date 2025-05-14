@@ -586,9 +586,6 @@ export default function Game() {
 
 	setupSearchField((roomNumber) => {
 		console.log("Gesuchter Raum:", roomNumber);
-
-		// Hier kannst du mit dem Raum was machen, z. B. highlighten oder navigieren:
-		// showPathToRoom(roomNumber); // falls du das implementierst
 	});
 
 
