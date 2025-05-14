@@ -14,6 +14,7 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { MeshLine, MeshLineRaycast } from 'three.meshline';
 
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
+import {setupSearchField} from "./RoomHandler";
 
 //import Box from './Box.js';
 //import Player from './Player.js';
@@ -582,6 +583,13 @@ export default function Game() {
 		//stats.update();
 
 	}
+
+	setupSearchField((roomNumber) => {
+		console.log("Gesuchter Raum:", roomNumber);
+
+		// Hier kannst du mit dem Raum was machen, z. B. highlighten oder navigieren:
+		// showPathToRoom(roomNumber); // falls du das implementierst
+	});
 
 
 
