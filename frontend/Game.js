@@ -440,6 +440,18 @@ export default function Game() {
 		});
 	}
 
+	const pathPoints = async (startPoint, targetPoint)=>{
+		await getPath(startPoint, targetPoint)
+			.catch(error => {
+				console.error("Error fetching path from backend :", error);
+			})
+			.then(response => {
+				console.log("Path from backend: ", response);
+				return response.split(",");
+			})
+	}
+	console.log(pathPoints("001", "004"));
+
 	function showPath(startPoint, targetPoint) {
 
 		const pathPoints = async (startPoint, targetPoint)=>{

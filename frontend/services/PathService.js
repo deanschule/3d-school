@@ -13,5 +13,4 @@ async function getPath(startPoint, targetPoint, ) {
 }
 
 
-
 export { getPath };
