@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^1.9.0",
     "meshline": "^3.3.1",
     "three": "^0.173.0",
     "three.meshline": "^1.4.0"
