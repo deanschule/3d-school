@@ -1,4 +1,8 @@
-export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) => {}) {
+import {getPath} from "./services/PathService";
+
+
+
+export function setupSearchField() {
     if (document.getElementById("roomOverlay")) return;
 
     const overlay = document.createElement("div");
@@ -42,7 +46,7 @@ export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) 
             </div>
             <div style="flex: 1;">
                 <label style="font-weight: bold;">Zielraum:</label><br/>
-                <input type="text" id="zielRoomInput" placeholder="z. B. 045" class="input" />
+                <input type="text" id="zielRoomInput" placeholder="z. B. 045"  class="input"/>
                 <select id="zielRoomDropdown" class="input" style="display: none;"></select>
             </div>
         </div>
@@ -114,9 +118,9 @@ export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) 
     const manualToggle = document.getElementById("manualToggle");
 
     const startInput = document.getElementById("startRoomInput");
-    const zielInput = document.getElementById("zielRoomInput");
+    const targetInput = document.getElementById("zielRoomInput");
     const startDropdown = document.getElementById("startRoomDropdown");
-    const zielDropdown = document.getElementById("zielRoomDropdown");
+    const targetDropwdown = document.getElementById("zielRoomDropdown");
 
     const roomInput = document.getElementById("roomInput");
     const roomDropdown = document.getElementById("roomDropdown");
@@ -129,9 +133,9 @@ export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) 
         const manual = manualToggle.checked;
 
         startInput.style.display = manual ? "block" : "none";
-        zielInput.style.display = manual ? "block" : "none";
+        targetInput.style.display = manual ? "block" : "none";
         startDropdown.style.display = manual ? "none" : "block";
-        zielDropdown.style.display = manual ? "none" : "block";
+        targetDropwdown.style.display = manual ? "none" : "block";
 
         roomInput.style.display = manual ? "block" : "none";
         roomDropdown.style.display = manual ? "none" : "block";
@@ -153,18 +157,27 @@ export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) 
             overlay.style.display = "none";
         }
     });
-
-    routeButton.addEventListener("click", () => {
+    routeButton.addEventListener("click", async () => {
         const start = manualToggle.checked ? startInput.value.trim() : startDropdown.value;
-        const ziel = manualToggle.checked ? zielInput.value.trim() : zielDropdown.value;
+        const target = manualToggle.checked ? targetInput.value.trim() : targetDropwdown.value;
 
-        if (start && ziel) {
-            overlay.style.display = "none";
-            callback(null, start, ziel);
+        if (start && target) {
+            try {
+                overlay.style.display = "none";
+                const path = await getPath({ startPoint: start, targetPoint: target });
+                console.log("Pfad erhalten:", path);
+                // Optionally: draw or use `path` here
+            } catch (err) {
+                console.error("Fehler beim Abrufen des Pfades:", err);
+                alert("Die Route konnte nicht geladen werden.");
+            }
         } else {
             alert("Bitte Start- und Zielraum angeben!");
         }
+
+        startInput.value = "" , startDropdown.value = "", targetInput.value = "", targetDropwdown.value = "";
     });
+
 
     searchButton.addEventListener("click", () => {
         const val = manualToggle.checked ? roomInput.value.trim() : roomDropdown.value;
@@ -194,6 +207,6 @@ export function setupSearchField(callback = (searchedRoom, startRoom, zielRoom) 
     }
 
     startDropdown.innerHTML = generateOptions(4, 119);
-    zielDropdown.innerHTML = generateOptions(4, 119);
+    targetDropwdown.innerHTML = generateOptions(4, 119);
     roomDropdown.innerHTML = generateOptions(4, 119);
 }
