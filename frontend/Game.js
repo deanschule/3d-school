@@ -450,7 +450,6 @@ export default function Game() {
 				return response.split(",");
 			})
 	}
-	console.log(getPath({ startPoint: "001", targetPoint: "004" }));
 
 	function showPath(startPoint, targetPoint) {
 
@@ -606,9 +605,7 @@ export default function Game() {
 
 	}
 
-	setupSearchField((roomNumber) => {
-		console.log("Gesuchter Raum:", roomNumber);
-	});
+	setupSearchField();
 
 
 
