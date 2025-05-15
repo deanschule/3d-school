@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="903b71ac-dff1-4afa-bfae-1f8c117b5b91" name="Changes" comment="Add event listener for start" />
+    <list default="true" id="903b71ac-dff1-4afa-bfae-1f8c117b5b91" name="Changes" comment="Add event listener for start">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender Models/New Blender Projekt [23.04.25]/school.blend" beforeDir="false" afterPath="$PROJECT_DIR$/Blender Models/New Blender Projekt [23.04.25]/school.blend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender Models/New Blender Projekt [23.04.25]/school.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/Blender Models/New Blender Projekt [23.04.25]/school.blend1" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +53,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "3d-school-blender",
     "last_opened_file_path": "/Users/ronny.angel.osca.monroy/Documents/Ausbildung 2°/school-project/3d-school/frontend/models/school",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -97,7 +101,8 @@
       <workItem from="1741165460730" duration="615000" />
       <workItem from="1741766452290" duration="3129000" />
       <workItem from="1745392909157" duration="3327000" />
-      <workItem from="1746702422886" duration="375000" />
+      <workItem from="1746702422886" duration="1076000" />
+      <workItem from="1747296745386" duration="973000" />
     </task>
     <task id="LOCAL-00001" summary="test 3">
       <option name="closed" value="true" />
