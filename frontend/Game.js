@@ -67,6 +67,10 @@ export default function Game() {
 		stats.domElement.style.top = '0px';
 		container.appendChild(stats.domElement);
 	*/
+	const PlayerStartX = 2.7;
+
+	const PlayerStartZ = 7.7;
+
 
 	const GRAVITY = 30;
 
@@ -74,7 +78,7 @@ export default function Game() {
 
 	const worldOctree = new Octree();
 
-	const playerCollider = new Capsule(new THREE.Vector3(0, 0.35, 0), new THREE.Vector3(0, 1, 0), 0.35);
+	const playerCollider = new Capsule(new THREE.Vector3(PlayerStartX, 0.35, PlayerStartZ), new THREE.Vector3(PlayerStartX, 1, PlayerStartZ), 0.35);
 
 	const playerVelocity = new THREE.Vector3();
 	const playerDirection = new THREE.Vector3();
@@ -281,7 +285,7 @@ export default function Game() {
 					child.material.map.anisotropy = 8;
 				}
 
-				if (child.name.includes('door_')) {
+				if (child.name.includes('door_entrance')) {
 					//Add collidor
 					worldOctree.fromGraphNode(child);
 
@@ -290,18 +294,6 @@ export default function Game() {
 					//for debug set to true:
 					helper.visible = false;
 					scene.add(helper);
-
-					doorePositionsName[arrayCount] = child.name;
-
-
-					doorePositions[arrayCount][0] = child.position.x;
-					doorePositions[arrayCount][1] = child.position.y;
-					doorePositions[arrayCount][2] = child.position.z;
-					arrayCount++;
-					//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
-
-					console.log(child.name + " position = ");
-					console.log(child.position)
 				}
 
 				if (child.name.includes('Plane')) {
@@ -312,6 +304,30 @@ export default function Game() {
 					helper.name = 'schoolOctree' + child.name;
 					helper.visible = false;
 				}
+			}
+
+			if (child.name.includes('door_entrance')) {
+				//Add collidor
+				/*worldOctree.fromGraphNode(child);
+
+				const helper = new OctreeHelper(worldOctree);
+				helper.name = 'schoolOctree' + child.name;
+				//for debug set to true:
+				helper.visible = false;
+				scene.add(helper);
+				*/
+				//console.log(child);
+				doorePositionsName[arrayCount] = child.name;
+
+
+				doorePositions[arrayCount][0] = child.position.x;
+				doorePositions[arrayCount][1] = child.position.y;
+				doorePositions[arrayCount][2] = child.position.z;
+				arrayCount++;
+				//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
+
+				//console.log(child.name + " position = ");
+				//console.log(child.position)
 			}
 
 			/*
@@ -336,8 +352,8 @@ export default function Game() {
 		helper.visible = false;
 		scene.add(helper);
 
-		console.log(doorePositions);
-		console.log(doorePositionsName);
+		//console.log(doorePositions);
+		//console.log(doorePositionsName);
 
 		/*
 		const gui = new GUI( { width: 200 } );
@@ -354,8 +370,8 @@ export default function Game() {
 
 		if (camera.position.y <= - 25) {
 
-			playerCollider.start.set(0, 0.35, 0);
-			playerCollider.end.set(0, 1, 0);
+			playerCollider.start.set(PlayerStartX, 0.35, PlayerStartZ);
+			playerCollider.end.set(PlayerStartX, 1, PlayerStartZ);
 			playerCollider.radius = 0.35;
 			camera.position.copy(playerCollider.end);
 			camera.rotation.set(0, 0, 0);
@@ -364,79 +380,59 @@ export default function Game() {
 
 	}
 
-	console.log(scene.children);
+	//console.log(scene.children);
 
-	function rightDoor (grandChildren) {
-		if (grandChildren.rotation.z > -1.5) {
-			grandChildren.rotation.z -= 0.005;
+	function openRightDoor(door) {
+		if (door.rotation.z > -1.5) {
+			door.rotation.z -= 0.009;
 		}
 		else {
-			grandChildren.rotation.z = 0;
+			//door.rotation.z = 0;
 		}
 	}
 
-	function leftDoor(grandChildren) {
-		if (grandChildren.rotation.z < 1.5) {
-			grandChildren.rotation.z += 0.005;
+	function openLeftDoor(door) {
+		if (door.rotation.z < 1.5) {
+			door.rotation.z += 0.009;
 		}
 		else {
-			grandChildren.rotation.z = 0;
+			//door.rotation.z = 0;
 		}
 	}
 
-	/*
-	function glasDoor(grandChildren) {
-		if (grandChildren.rotation.z > 0) {
-			grandChildren.rotation.z -= 0.005;
-		}
-		else {
-			grandChildren.rotation.z = 1.5;
-		}
-	}*/
-
-	function getDoor(doorName) {
-
-		const myArray = doorName.split("_");
-		doorName = myArray[myArray.length - 1];
-		//console.log(doorName);
+	function openDoors(doorName) {
 
 		scene.children.forEach(child => {
 
-			if (child.name === "school") {
+			if (child.name == "school") {
 				child.children.forEach(grandChildren => {
-					console.log(doorName);
 
 					switch (doorName) {
-						/*case "1":
-							if (grandChildren.name == "glass_door_1") { glasDoor(grandChildren); }
-							break;
-						case "2":
-							if (grandChildren.name == "glass_door_2") { glasDoor(grandChildren); }
-							break;*/
 						case "door_entrance":
-							if (grandChildren.name == "door_left_entrance") { leftDoor(grandChildren); }
-							if (grandChildren.name == "door_right_entrance") { rightDoor(grandChildren); }
+
+							grandChildren.children.forEach(grandGrandChildren => {
+								if (grandGrandChildren.name == "door_left_entrance") { openLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance") { openRightDoor(grandGrandChildren); }
+							})
 							break;
 						case "door_entrance01":
-							if (grandChildren.name == "door_left_entrance001") { leftDoor(grandChildren); }
-							if (grandChildren.name == "door_right_entrance001") { rightDoor(grandChildren); }
+							grandChildren.children.forEach(grandGrandChildren => {
+								if (grandGrandChildren.name == "door_left_entrance001") { openLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance001") { openRightDoor(grandGrandChildren); }
+							})
 							break;
 						case "door_entrance02":
-							if (grandChildren.name == "door_left_entrance002") { leftDoor(grandChildren); }
-							if (grandChildren.name == "door_right_entrance002") { rightDoor(grandChildren); }
+							grandChildren.children.forEach(grandGrandChildren => {
+								if (grandGrandChildren.name == "door_left_entrance002") { openLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance002") { openRightDoor(grandGrandChildren); }
+							})
 							break;
 						case "door_entrance03":
-							if (grandChildren.name == "door_left_entrance003") { leftDoor(grandChildren); }
-							if (grandChildren.name == "door_right_entrance003") { rightDoor(grandChildren); }
-							break;/*
-						case "entryright002":
-							if (grandChildren.name == "door_left005") { rightDoor(grandChildren); }
-							if (grandChildren.name == "door_right005") { leftDoor(grandChildren); }
+							grandChildren.children.forEach(grandGrandChildren => {
+								if (grandGrandChildren.name == "door_left_entrance003") { openLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance003") { openRightDoor(grandGrandChildren); }
+							})
 							break;
-						case "entryleft002":
-							if (grandChildren.name == "door_left004") { rightDoor(grandChildren); }
-							if (grandChildren.name == "door_right004") { leftDoor(grandChildren); }
-							break;*/
 					}
 				});
 			}
@@ -458,7 +454,7 @@ export default function Game() {
 
 		//Get coordinates
 		scene.children.forEach(child => {
-
+			//roomaxis003
 			if (child.name === "school") {
 
 				for (let i = 0; i < pathPoints.length - 1; i++) {
@@ -483,14 +479,13 @@ export default function Game() {
 			geometryPoints.push(new THREE.Vector3(pathPoints[i]));
 		}
 
-
-
 		const mesh = new THREE.Mesh(geometry, lineMaterial);
 
 		scene.add(mesh);
 	}
 
 	/*
+	Test
 	const geometry = new MeshLineGeometry();
 
 	const geometryPoints = [
@@ -548,48 +543,21 @@ export default function Game() {
 			teleportPlayerIfOob();
 
 		}
-		let testDor = 1;
 
 		for (let i = 0; i < doorePositions.length; i++) {
 
-			if (doorePositionsName[i].includes("left")) {
-				if (doorePositions[i][0] + 0.4 > playerPosition.x && doorePositions[i][0] - 1.8 < playerPosition.x && doorePositions[i][2] - 0.1 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
-					getDoor(doorePositionsName[i]);
+			if (doorePositionsName[i] == "door_entrance02" || doorePositionsName[i] == "door_entrance") {
+				if (doorePositions[i][0] + 2.5 > playerPosition.x && doorePositions[i][0] - 0.5 < playerPosition.x && doorePositions[i][2] + 1.5 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
+					openDoors(doorePositionsName[i]);
 				}
 			}
 
-
-			if (doorePositionsName[i].includes("right")) {
-				if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 1.8 > playerPosition.x && doorePositions[i][2] - 0.1 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
-					getDoor(doorePositionsName[i]);
+			if (doorePositionsName[i] == "door_entrance03" || doorePositionsName[i] == "door_entrance01") {
+				if (doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][0] + 2 < playerPosition.x && doorePositions[i][2] + 1.5 < playerPosition.z && doorePositions[i][2] + 6 > playerPosition.z) {
+					openDoors(doorePositionsName[i]);
 				}
 			}
-			/*
-						if (doorePositionsName[i] == "glass_door_1") {
-			
-							if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] + 2.1 > playerPosition.z && doorePositions[i][2] - 0.3 < playerPosition.z) {
-								getDoor(doorePositionsName[i]);
-							}
-						}
-			
-						if (doorePositionsName[i] == "glass_door_2") {
-			
-							if (doorePositions[i][0] - 0.4 < playerPosition.x && doorePositions[i][0] + 4 > playerPosition.x && doorePositions[i][2] - 2 > playerPosition.z && doorePositions[i][2] + 2 < playerPosition.z) {
-								getDoor(doorePositionsName[i]);
-							}
-						}*/
 		}
-
-		//getDoor(doorePositionsName[testDor]);
-		/*
-				console.log(doorePositionsName[testDor]);
-				console.log(doorePositions[testDor][0]);
-				console.log(doorePositions[testDor][2]);
-				console.log("Player " + playerPosition.x);
-				console.log("Player " + playerPosition.z);*/
-
-
-		//getDoor("glass_door_2");
 
 		renderer.render(scene, camera);
 
@@ -600,7 +568,5 @@ export default function Game() {
 	setupSearchField((roomNumber) => {
 		console.log("Gesuchter Raum:", roomNumber);
 	});
-
-
 
 }

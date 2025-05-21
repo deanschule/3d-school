@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/3d-school.iml" filepath="$PROJECT_DIR$/.idea/3d-school.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lf12_starter_backend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lf12_starter_backend.main.iml" />
     </modules>
   </component>
