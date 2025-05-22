@@ -1,0 +1,20 @@
+# Gradle build artifacts
+.gradle/
+build/
+*/build/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# Environment
+.env
+*.env
+
+# Logs and outputs
+*.log
+*.jar
+*.war
+*.ear
+
