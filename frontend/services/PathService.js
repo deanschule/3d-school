@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const GET_PATH = "http://localhost:8080/path";
+const GET_PATH = "https://threed-school-qyz3.onrender.com/path";
 
 async function getPath({ startPoint, targetPoint }) {
     try {

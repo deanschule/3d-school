@@ -4,7 +4,7 @@ import de.szut.lf8_starter.service.PathfindingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "*")
 @RestController()
 @RequestMapping("/path")
 @RequiredArgsConstructor
