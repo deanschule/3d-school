@@ -11,4 +11,4 @@ COPY . .
 RUN ./gradlew build
 
 # Run the application
-CMD ["java", "-jar", "build/libs/3dschool-0.0.1-SNAPSHOT.jar"]
+CMD sh -c "java -jar build/libs/*SNAPSHOT.jar"
