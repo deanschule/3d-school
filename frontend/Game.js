@@ -381,6 +381,8 @@ export default function Game() {
 	}
 
 	//console.log(scene.children);
+	let doorsOpen = false;
+
 
 	function openRightDoor(door) {
 		if (door.rotation.z > -1.5) {
@@ -400,6 +402,19 @@ export default function Game() {
 		}
 	}
 
+	function closeRightDoor(door) {
+		if (door.rotation.z < 0) {
+			door.rotation.z += 0.009;
+		}
+	}
+
+	function closeLeftDoor(door) {
+		if (door.rotation.z > 0) {
+			door.rotation.z -= 0.009;
+		}
+	}
+
+
 	function openDoors(doorName) {
 
 		scene.children.forEach(child => {
@@ -411,26 +426,34 @@ export default function Game() {
 						case "door_entrance":
 
 							grandChildren.children.forEach(grandGrandChildren => {
-								if (grandGrandChildren.name == "door_left_entrance") { openLeftDoor(grandGrandChildren); }
-								if (grandGrandChildren.name == "door_right_entrance") { openRightDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_left_entrance" && doorsOpen == false) { openLeftDoor(grandGrandChildren); }
+								else { closeLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance" && doorsOpen == false) { openRightDoor(grandGrandChildren); }
+								else { closeRightDoor(grandGrandChildren); }
 							})
 							break;
 						case "door_entrance01":
 							grandChildren.children.forEach(grandGrandChildren => {
-								if (grandGrandChildren.name == "door_left_entrance001") { openLeftDoor(grandGrandChildren); }
-								if (grandGrandChildren.name == "door_right_entrance001") { openRightDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_left_entrance001" && doorsOpen == false) { openLeftDoor(grandGrandChildren); }
+								else { closeLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance001" && doorsOpen == false) { openRightDoor(grandGrandChildren); }
+								else { closeRightDoor(grandGrandChildren); }
 							})
 							break;
 						case "door_entrance02":
 							grandChildren.children.forEach(grandGrandChildren => {
-								if (grandGrandChildren.name == "door_left_entrance002") { openLeftDoor(grandGrandChildren); }
-								if (grandGrandChildren.name == "door_right_entrance002") { openRightDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_left_entrance002" && doorsOpen == false) { openLeftDoor(grandGrandChildren); }
+								else { closeLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance002" && doorsOpen == false) { openRightDoor(grandGrandChildren); }
+								else { closeRightDoor(grandGrandChildren); }
 							})
 							break;
 						case "door_entrance03":
 							grandChildren.children.forEach(grandGrandChildren => {
-								if (grandGrandChildren.name == "door_left_entrance003") { openLeftDoor(grandGrandChildren); }
-								if (grandGrandChildren.name == "door_right_entrance003") { openRightDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_left_entrance003" && doorsOpen == false) { openLeftDoor(grandGrandChildren); }
+								else { closeLeftDoor(grandGrandChildren); }
+								if (grandGrandChildren.name == "door_right_entrance003" && doorsOpen == false) { openRightDoor(grandGrandChildren); }
+								else { closeRightDoor(grandGrandChildren); }
 							})
 							break;
 					}
@@ -524,8 +547,10 @@ export default function Game() {
 	lineMaterial.transparent = true;
 	lineMaterial.depthTest = true;
 
-	function animate() {
+	const tiks = 0;
 
+	function animate() {
+		console.log(tiks);
 		//Animate path
 		lineMaterial.dashOffset -= 0.003;
 
@@ -557,12 +582,17 @@ export default function Game() {
 					openDoors(doorePositionsName[i]);
 				}
 			}
+
+			if(tiks < 1000 && doorsOpen == true){
+				openDoors(doorePositionsName[i]);
+			}
+
 		}
 
 		renderer.render(scene, camera);
 
 		//stats.update();
-
+		tiks++;
 	}
 
 	setupSearchField((roomNumber) => {
