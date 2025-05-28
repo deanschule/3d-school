@@ -507,7 +507,7 @@ export default function Game() {
 
 		//Remove root
 		try {
-			const object = scene.getObjectByName("root");
+			const object = scene.getObjectByName("route");
 
 			object.geometry.dispose();
 			object.material.dispose();
@@ -515,7 +515,7 @@ export default function Game() {
 		}
 		catch (err) { }
 
-		mesh.name = "root";
+		mesh.name = "route";
 
 		scene.add(mesh);
 	}
