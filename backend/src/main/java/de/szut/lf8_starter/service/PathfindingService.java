@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 @Service
 public class PathfindingService {
 
-    private Map<String, List<String>> roomGraph = Map.of(
+    private final Map<String, List<String>> roomGraph = Map.of(
             "001", List.of("002"),
             "002", List.of("001", "002B"),
             "002B", List.of("002", "003", "007","008","009","010"),
@@ -37,14 +37,14 @@ public class PathfindingService {
             String last = path.get(path.size() - 1);
 
             if (last.equals(target)) {
-                return path; // Found the path
+                return path.stream().map(e -> "roomaxis"+e).collect(Collectors.toList()); // Found the path
             }
 
             if (!visited.contains(last)) {
                 visited.add(last);
                 for (String neighbor : graph.getOrDefault(last, new ArrayList<>())) {
                     List<String> newPath = new ArrayList<>(path);
-                    newPath.add("roomaxis"+neighbor);
+                    newPath.add(neighbor);
                     queue.add(newPath);
                 }
             }
