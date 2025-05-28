@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 public class PathfindingService {
 
     private Map<String, List<String>> roomGraph = Map.of(
-            "roomaxis001", List.of("roomaxis002"),
-            "roomaxis002", List.of("roomaxis001", "roomaxis002B"),
-            "roomaxis002B", List.of("roomaxis002", "roomaxis003", "roomaxis007","roomaxis008","roomaxis009","roomaxis010"),
-            "003", List.of("roomaxis002B", "roomaxis004","roomaxis007","roomaxis008", "roomaxis009","roomaxis010"),
-            "004", List.of("roomaxis003", "roomaxis009","roomaxis010","roomaxis008","roomaxis007"),
-            "roomaxis005|006", List.of("roomaxis007"),
-            "roomaxis007", List.of("roomaxis005", "roomaxis006", "roomaxis002B","roomaxis008","roomaxis003","roomaxis004"),
-            "roomaxis008", List.of("roomaxis007", "roomaxis009", "roomaxis010", "roomaxis002B", "roomaxis003", "roomaxis004"),
-            "roomaxis009", List.of("roomaxis008", "roomaxis004","roomaxis003","roomaxis002B"),
-            "roomaxis010", List.of("roomaxis008", "roomaxis004","roomaxis003","roomaxis002B")
+            "001", List.of("002"),
+            "002", List.of("001", "002B"),
+            "002B", List.of("002", "003", "007","008","009","010"),
+            "003", List.of("002B", "004","007","008", "009","010"),
+            "004", List.of("003", "009","010","008","007"),
+            "005|006", List.of("007"),
+            "007", List.of("005", "006", "002B","008","003","004"),
+            "008", List.of("007", "009", "010", "002B", "003", "004"),
+            "009", List.of("008", "004","003","002B"),
+            "010", List.of("008", "004","003","002B")
     );
 
     public String calculatePath(String start, String target){
@@ -44,7 +44,7 @@ public class PathfindingService {
                 visited.add(last);
                 for (String neighbor : graph.getOrDefault(last, new ArrayList<>())) {
                     List<String> newPath = new ArrayList<>(path);
-                    newPath.add(neighbor);
+                    newPath.add("roomaxis"+neighbor);
                     queue.add(newPath);
                 }
             }
