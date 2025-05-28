@@ -263,7 +263,7 @@ export default function Game() {
 	const doorePositionsName = Array(rows).fill("");
 
 	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/Schule_Export/Schule_Export/');
+	const loader = new GLTFLoader().setPath('./models/Schule Export/Schule Export/');
 
 	//load school with GLTF Loader
 	loader.load('school_modify_addedd1.gltf', (gltf) => {
@@ -504,6 +504,18 @@ export default function Game() {
 		geometry.setPoints(geometryPoints);
 
 		const mesh = new THREE.Mesh(geometry, lineMaterial);
+
+		//Remove root
+		try {
+			const object = scene.getObjectByName("root");
+
+			object.geometry.dispose();
+			object.material.dispose();
+			scene.remove(object);
+		}
+		catch (err) { }
+
+		mesh.name = "root";
 
 		scene.add(mesh);
 	}
