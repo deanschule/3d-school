@@ -439,7 +439,7 @@ export default function Game() {
 		});
 	}
 
-	const pathPoints = async (startPoint, targetPoint)=>{
+	const pathPoints = async (startPoint, targetPoint) => {
 		await getPath(startPoint, targetPoint)
 			.catch(error => {
 				console.error("Error fetching path from backend :", error);
@@ -450,8 +450,9 @@ export default function Game() {
 			})
 	}
 
-	function showPath(startPoint, targetPoint) {
+	window.showPath = function (pathString) {
 
+		/*
 		const pathPoints = async (startPoint, targetPoint) => {
 			await getPath(startPoint, targetPoint)
 				.catch(error => {
@@ -461,18 +462,25 @@ export default function Game() {
 					console.log("Path from backend: ", response);
 					return response.split(",");
 				})
-		}
+		}*/
+
+		const pathPointsName = pathString.split(",");
+
+		const pathPoints = Array(pathPointsName.length);
+
+		console.log("pathPointsName");
+		console.log(pathPointsName);
 
 		//Get coordinates
 		scene.children.forEach(child => {
 			//roomaxis003
 			if (child.name === "school") {
 
-				for (let i = 0; i < pathPoints.length - 1; i++) {
+				for (let i = 0; i < pathPointsName.length; i++) {
 
 					child.children.forEach(grandChildren => {
 
-						if (grandChildren.name == pathPoints[i]) {
+						if (grandChildren.name == pathPointsName[i]) {
 							pathPoints[i] = grandChildren.position;
 						}
 					});
@@ -480,17 +488,34 @@ export default function Game() {
 			}
 		});
 
+		console.log("pathPoints");
+		console.log(pathPoints);
+
 		//show way to points
 		const geometry = new MeshLineGeometry();
 
 		const geometryPoints = [];
 
-		for (let i = 0; i < pathPoints.length - 1; i++) {
+		for (let i = 0; i < pathPoints.length; i++) {
 
-			geometryPoints.push(new THREE.Vector3(pathPoints[i]));
+			geometryPoints.push(new THREE.Vector3(pathPoints[i].x, pathPoints[i].y, pathPoints[i].z));
 		}
 
+		geometry.setPoints(geometryPoints);
+
 		const mesh = new THREE.Mesh(geometry, lineMaterial);
+
+		//Remove root
+		try {
+			const object = scene.getObjectByName("route");
+
+			object.geometry.dispose();
+			object.material.dispose();
+			scene.remove(object);
+		}
+		catch (err) { }
+
+		mesh.name = "route";
 
 		scene.add(mesh);
 	}
