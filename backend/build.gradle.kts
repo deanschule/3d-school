@@ -1,7 +1,7 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.3"
-    id("io.spring.dependency-management") version "1.1.6"
+    id ("org.springframework.boot") version "3.3.3"
+    id ("io.spring.dependency-management") version "1.1.6"
 }
 
 group = "de.szut"
@@ -32,6 +32,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 //    runtimeOnly("org.postgresql:postgresql")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    implementation(kotlin("script-runtime"))
 }
 
 tasks.withType<Test> {
