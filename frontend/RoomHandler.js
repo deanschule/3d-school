@@ -1,3 +1,4 @@
+import Game from "./Game";
 import {getPath} from "./services/PathService";
 
 
@@ -166,6 +167,8 @@ export function setupSearchField() {
                 overlay.style.display = "none";
                 const path = await getPath({ startPoint: start, targetPoint: target });
                 console.log("Pfad erhalten:", path);
+                
+                window.showPath(path);
                 // Optionally: draw or use `path` here
             } catch (err) {
                 console.error("Fehler beim Abrufen des Pfades:", err);
