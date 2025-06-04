@@ -204,12 +204,20 @@ export function setupSearchField() {
         let options = '<option value="">Bitte wählen</option>';
         for (let i = min; i <= max; i++) {
             const val = String(i).padStart(3, "0");
-            options += `<option value="${val}">${val}</option>`;
+            if (val === "005" || val === "006"){
+                options += `<option value="005|006">${val}</option>`;
+            }else{
+                options += `<option value="${val}">${val}</option>`;
+            }
+            if (val === "002"){
+                options += `<option value="002B">002B</option>`;
+            }
+
         }
         return options;
     }
 
-    startDropdown.innerHTML = generateOptions(4, 119);
-    targetDropwdown.innerHTML = generateOptions(4, 119);
-    roomDropdown.innerHTML = generateOptions(4, 119);
+    startDropdown.innerHTML = generateOptions(1, 10);
+    targetDropwdown.innerHTML = generateOptions(1, 10);
+    roomDropdown.innerHTML = generateOptions(1, 10);
 }
