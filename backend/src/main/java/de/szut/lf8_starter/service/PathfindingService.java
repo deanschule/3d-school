@@ -14,12 +14,12 @@ public class PathfindingService {
             "002B", List.of("002", "003", "007","008","009","010"),
             "003", List.of("002B", "004","007","008", "009","010"),
             "004", List.of("003", "009","010","008","007"),
-            "005|006", List.of("007"),
+            "005", List.of("007", "006"),
             "007", List.of("005", "006", "002B","008","003","004"),
             "008", List.of("007", "009", "010", "002B", "003", "004"),
             "009", List.of("008", "004","003","002B"),
             "010", List.of("008", "004","003","002B")
-    );
+            );
 
     public String calculatePath(String start, String target){
         return String.join(",",findShortestPath(roomGraph, start, target));
