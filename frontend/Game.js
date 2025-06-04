@@ -263,7 +263,7 @@ export default function Game() {
 	const doorePositionsName = Array(rows).fill("");
 
 	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/Schule Export/Schule Export/');
+	const loader = new GLTFLoader().setPath('./models/Schule_Export/Schule_Export/');
 
 	//load school with GLTF Loader
 	loader.load('school_modify_addedd1.gltf', (gltf) => {
@@ -363,6 +363,8 @@ export default function Game() {
 				helper.visible = value;
  
 			} );*/
+
+		console.log("done");
 
 	});
 
@@ -488,8 +490,10 @@ export default function Game() {
 			}
 		});
 
-		console.log("pathPoints");
-		console.log(pathPoints);
+
+		//console.log("pathPoints");
+		//console.log(pathPoints);
+		//alert((pathPoints[0].x /*- 8.5*/) + "|" + pathPoints[0].y + "|" + pathPoints[0].z);
 
 		//show way to points
 		const geometry = new MeshLineGeometry();
@@ -498,7 +502,7 @@ export default function Game() {
 
 		for (let i = 0; i < pathPoints.length; i++) {
 
-			geometryPoints.push(new THREE.Vector3(pathPoints[i].x, pathPoints[i].y, pathPoints[i].z));
+			geometryPoints.push(new THREE.Vector3((pathPoints[i].x * 4), pathPoints[i].y * 4.1, pathPoints[i].z  * 4));
 		}
 
 		geometry.setPoints(geometryPoints);
@@ -577,6 +581,8 @@ export default function Game() {
 			updatePlayer(deltaTime);
 
 			teleportPlayerIfOob();
+
+			console.log(playerPosition);
 
 		}
 
