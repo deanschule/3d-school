@@ -260,7 +260,7 @@ export default function Game() {
 	const doorePositionsName = Array(rows).fill("");
 
 	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/Schule_Export/Schule_Export/');
+	const loader = new GLTFLoader().setPath('./models/schule_export/schule_export/');
 
 	//load school with GLTF Loader
 	loader.load('school_modify_addedd1.gltf', (gltf) => {
@@ -347,8 +347,9 @@ export default function Game() {
 	}
 
 	function openRightDoor(door) {
-		if (door.rotation.z > -1.5) {
-			door.rotation.z -= 0.009;
+
+		if (door.rotation.z >  0.2/*-1.5*/) {
+			door.rotation.z -= 0.04;
 		}
 		else {
 			//door.rotation.z = 0;
@@ -356,8 +357,9 @@ export default function Game() {
 	}
 
 	function openLeftDoor(door) {
-		if (door.rotation.z < 1.5) {
-			door.rotation.z += 0.009;
+
+		if (door.rotation.z < 3 /*1.5*/) {
+			door.rotation.z += 0.04;
 		}
 		else {
 			//door.rotation.z = 0;
@@ -450,7 +452,7 @@ export default function Game() {
 
 		for (let i = 0; i < pathPoints.length; i++) {
 
-			geometryPoints.push(new THREE.Vector3((pathPoints[i].x * 4), pathPoints[i].y * 4.1, pathPoints[i].z  * 4));
+			geometryPoints.push(new THREE.Vector3((pathPoints[i].x * 4), pathPoints[i].y * 4.1, pathPoints[i].z * 4));
 		}
 
 		geometry.setPoints(geometryPoints);
