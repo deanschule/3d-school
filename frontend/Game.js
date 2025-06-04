@@ -26,13 +26,13 @@ export default function Game() {
 
 	const scene = new THREE.Scene();
 	scene.background = new THREE.Color(0x88ccee);
-	scene.fog = new THREE.Fog(0x88ccee, 0, 50);
+	//scene.fog = new THREE.Fog(0x88ccee, 0, 50);
 
 	const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.rotation.order = 'YXZ';
 
 	const fillLight1 = new THREE.HemisphereLight(0x8dc1de, 0x00668d, 1.5);
-	fillLight1.position.set(2, 1, 1);
+	fillLight1.position.set(1, 2, 1);
 	scene.add(fillLight1);
 
 	const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
@@ -242,16 +242,13 @@ export default function Game() {
 
 			if (keyStates['Space']) {
 
-				playerVelocity.y = 15;
+				playerVelocity.y = 10;
 
 			}
 
 		}
 
 	}
-
-	//
-	//const doorePositions = {objectName: "", x: 0, y :0, z: 0}
 
 	let arrayCount = 0;
 
@@ -293,7 +290,7 @@ export default function Game() {
 					helper.name = 'schoolOctree' + child.name;
 					//for debug set to true:
 					helper.visible = false;
-					scene.add(helper);
+					//scene.add(helper);
 				}
 
 				if (child.name.includes('Plane')) {
@@ -307,15 +304,6 @@ export default function Game() {
 			}
 
 			if (child.name.includes('door_entrance')) {
-				//Add collidor
-				/*worldOctree.fromGraphNode(child);
-
-				const helper = new OctreeHelper(worldOctree);
-				helper.name = 'schoolOctree' + child.name;
-				//for debug set to true:
-				helper.visible = false;
-				scene.add(helper);
-				*/
 				//console.log(child);
 				doorePositionsName[arrayCount] = child.name;
 
@@ -324,26 +312,7 @@ export default function Game() {
 				doorePositions[arrayCount][1] = child.position.y;
 				doorePositions[arrayCount][2] = child.position.z;
 				arrayCount++;
-				//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
-
-				//console.log(child.name + " position = ");
-				//console.log(child.position)
 			}
-
-			/*
-			if (child.name === "glass_door_1" || child.name === "glass_door_2") {
-
-				//doorePositions.push(child.name, child.position.x, child.position.y, child.position.z);
-
-				doorePositionsName[arrayCount] = child.name;
-				doorePositions[arrayCount][0] = child.position.x;
-				doorePositions[arrayCount][1] = child.position.y;
-				doorePositions[arrayCount][2] = child.position.z;
-				arrayCount++;
-
-				console.log(child.name + " position = ");
-				console.log(child.position);
-			}*/
 
 		});
 
@@ -351,9 +320,6 @@ export default function Game() {
 		helper.name = 'schoolOctree'
 		helper.visible = false;
 		scene.add(helper);
-
-		//console.log(doorePositions);
-		//console.log(doorePositionsName);
 
 		/*
 		const gui = new GUI( { width: 200 } );
@@ -377,12 +343,8 @@ export default function Game() {
 			playerCollider.radius = 0.35;
 			camera.position.copy(playerCollider.end);
 			camera.rotation.set(0, 0, 0);
-
 		}
-
 	}
-
-	//console.log(scene.children);
 
 	function openRightDoor(door) {
 		if (door.rotation.z > -1.5) {
@@ -441,7 +403,7 @@ export default function Game() {
 		});
 	}
 
-	const pathPoints = async (startPoint, targetPoint) => {
+	/*const pathPoints = async (startPoint, targetPoint) => {
 		await getPath(startPoint, targetPoint)
 			.catch(error => {
 				console.error("Error fetching path from backend :", error);
@@ -450,32 +412,19 @@ export default function Game() {
 				console.log("Path from backend: ", response);
 				return response.split(",");
 			})
-	}
+	}*/
 
 	window.showPath = function (pathString) {
-
-		/*
-		const pathPoints = async (startPoint, targetPoint) => {
-			await getPath(startPoint, targetPoint)
-				.catch(error => {
-					console.error("Error fetching path from backend :", error);
-				})
-				.then(response => {
-					console.log("Path from backend: ", response);
-					return response.split(",");
-				})
-		}*/
 
 		const pathPointsName = pathString.split(",");
 
 		const pathPoints = Array(pathPointsName.length);
 
-		console.log("pathPointsName");
-		console.log(pathPointsName);
+		//console.log("pathPointsName");
+		//console.log(pathPointsName);
 
 		//Get coordinates
 		scene.children.forEach(child => {
-			//roomaxis003
 			if (child.name === "school") {
 
 				for (let i = 0; i < pathPointsName.length; i++) {
@@ -493,7 +442,6 @@ export default function Game() {
 
 		//console.log("pathPoints");
 		//console.log(pathPoints);
-		//alert((pathPoints[0].x /*- 8.5*/) + "|" + pathPoints[0].y + "|" + pathPoints[0].z);
 
 		//show way to points
 		const geometry = new MeshLineGeometry();
@@ -509,7 +457,7 @@ export default function Game() {
 
 		const mesh = new THREE.Mesh(geometry, lineMaterial);
 
-		//Remove root
+		//Remove old root
 		try {
 			const object = scene.getObjectByName("route");
 
@@ -523,35 +471,6 @@ export default function Game() {
 
 		scene.add(mesh);
 	}
-
-	/*
-	Test
-	const geometry = new MeshLineGeometry();
-
-	const geometryPoints = [
-		new THREE.Vector3(- 10, 0.7, 0),
-		new THREE.Vector3(0, 0.2, 0),
-		new THREE.Vector3(10, 0.2, 5)
-	];
-
-	geometryPoints.push(new THREE.Vector3(5, 10, 10));
-
-	geometry.setPoints(geometryPoints);
-
-	const lineMaterial = new MeshLineMaterial({
-		color: new THREE.Color(0x4BA4FB),
-		lineWidth: 1,
-		resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
-		dashArray: 0.2
-	});
-	
-
-	lineMaterial.transparent = true;
-	lineMaterial.depthTest = true;
-
-	const mesh = new THREE.Mesh(geometry, lineMaterial);
-
-	scene.add(mesh);*/
 
 	//Material for path
 	const lineMaterial = new MeshLineMaterial({
@@ -571,8 +490,7 @@ export default function Game() {
 
 		const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
 
-		// we look for collisions in substeps to mitigate the risk of
-		// an object traversing another too quickly for detection.
+		//we look for collisions in substeps to mitigate the risk of an object traversing another too quickly for detection.
 
 		for (let i = 0; i < STEPS_PER_FRAME; i++) {
 
@@ -582,7 +500,7 @@ export default function Game() {
 
 			teleportPlayerIfOob();
 
-			console.log(playerPosition);
+			//console.log(playerPosition);
 
 		}
 
@@ -604,7 +522,6 @@ export default function Game() {
 		renderer.render(scene, camera);
 
 		//stats.update();
-
 	}
 
 	setupSearchField();
