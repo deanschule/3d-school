@@ -33,7 +33,7 @@ body {
 }
 
 #content {
-	margin-top: 20%;
+	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -49,11 +49,42 @@ body {
 
 #progress-bar {
 	width: 30%;
-	margin-top: 0.5%;
+	margin-bottom: 10px;
 	height: 2%;
 }
 
 label {
 	color: black;
 	font-size: 2rem;
+}
+
+.wave-text span {
+	display: inline-block;
+	font-size: 4rem;
+	animation: wave 2s ease-in-out infinite;
+}
+
+.wave-text span:nth-child(1) {
+	animation-delay: 0s;
+}
+
+.wave-text span:nth-child(2) {
+	animation-delay: 0.2s;
+}
+
+.wave-text span:nth-child(3) {
+	animation-delay: 0.4s;
+}
+
+
+@keyframes wave {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
 }

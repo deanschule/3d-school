@@ -347,9 +347,6 @@ export default function Game() {
 				helper.visible = value;
  
 			} );*/
-
-		console.log("done");
-
 	});
 
 	function teleportPlayerIfOob() {

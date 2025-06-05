@@ -1,5 +1,5 @@
 import Game from "./Game";
-import {getPath} from "./services/PathService";
+import { getPath } from "./services/PathService";
 
 
 
@@ -52,19 +52,20 @@ export function setupSearchField() {
             </div>
         </div>
 
-        <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+        <!--<div style="display: flex; gap: 10px; margin-bottom: 30px;">
             <button id="routeButton" class="btn btn-primary">Route anzeigen</button>
-        </div>
+        </div>-->
 
-        <div style="width: 100%;">
+        <!--<div style="width: 100%;">
             <label style="font-weight: bold;">Direkte Raumsuche:</label><br/>
             <input type="text" id="roomInput" class="input" placeholder="z. B. 100" />
             <select id="roomDropdown" class="input" style="display: none; margin-top: 8px;"></select>
-        </div>
+        </div>-->
 
         <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button id="searchButton" class="btn btn-secondary">Suchen</button>
+            <!--<button id="searchButton" class="btn btn-secondary">Suchen</button>-->
             <button class="btn" id="cancelButton">Schließen</button>
+            <button id="routeButton" class="btn btn-primary">Route anzeigen</button>
         </div>
     `;
 
@@ -167,7 +168,7 @@ export function setupSearchField() {
                 overlay.style.display = "none";
                 const path = await getPath({ startPoint: start, targetPoint: target });
                 console.log("Pfad erhalten:", path);
-                
+
                 window.showPath(path);
                 // Optionally: draw or use `path` here
             } catch (err) {
@@ -178,7 +179,7 @@ export function setupSearchField() {
             alert("Bitte Start- und Zielraum angeben!");
         }
 
-        startInput.value = "" , startDropdown.value = "", targetInput.value = "", targetDropwdown.value = "";
+        startInput.value = "", startDropdown.value = "", targetInput.value = "", targetDropwdown.value = "";
     });
 
 
@@ -204,13 +205,13 @@ export function setupSearchField() {
         let options = '<option value="">Bitte wählen</option>';
         for (let i = min; i <= max; i++) {
             const val = String(i).padStart(3, "0");
-            if (val === "005" || val === "006"){
-                options += `<option value="005|006">${val}</option>`;
-            }else{
-                options += `<option value="${val}">${val}</option>`;
+            if (val === "005" || val === "006") {
+                options += '<option value="005|006">${val}</option>';
+            } else {
+                options += '<option value="${val}">${val}</option>';
             }
-            if (val === "002"){
-                options += `<option value="002B">002B</option>`;
+            if (val === "002") {
+                options += '<option value="002B">002B</option>';
             }
 
         }
@@ -220,4 +221,5 @@ export function setupSearchField() {
     startDropdown.innerHTML = generateOptions(1, 10);
     targetDropwdown.innerHTML = generateOptions(1, 10);
     roomDropdown.innerHTML = generateOptions(1, 10);
+
 }
