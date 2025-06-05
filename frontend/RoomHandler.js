@@ -128,7 +128,7 @@ export function setupSearchField() {
     const roomDropdown = document.getElementById("roomDropdown");
 
     const routeButton = document.getElementById("routeButton");
-    const searchButton = document.getElementById("searchButton");
+    //const searchButton = document.getElementById("searchButton");
     const cancelButton = document.getElementById("cancelButton");
 
     manualToggle.addEventListener("change", () => {
@@ -167,10 +167,9 @@ export function setupSearchField() {
             try {
                 overlay.style.display = "none";
                 const path = await getPath({ startPoint: start, targetPoint: target });
-                console.log("Pfad erhalten:", path);
+                //console.log("Pfad erhalten:", path);
 
                 window.showPath(path);
-                // Optionally: draw or use `path` here
             } catch (err) {
                 console.error("Fehler beim Abrufen des Pfades:", err);
                 alert("Die Route konnte nicht geladen werden.");
@@ -183,7 +182,7 @@ export function setupSearchField() {
     });
 
 
-    searchButton.addEventListener("click", () => {
+    /*searchButton.addEventListener("click", () => {
         const val = manualToggle.checked ? roomInput.value.trim() : roomDropdown.value;
         if (val) {
             overlay.style.display = "none";
@@ -191,24 +190,24 @@ export function setupSearchField() {
         } else {
             alert("Bitte einen Raum angeben!");
         }
-    });
+    });*/
 
     cancelButton.addEventListener("click", () => {
         overlay.style.display = "none";
     });
 
-    roomInput.addEventListener("keydown", (event) => {
+    /*roomInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") searchButton.click();
-    });
+    });*/
 
     function generateOptions(min, max) {
         let options = '<option value="">Bitte wählen</option>';
         for (let i = min; i <= max; i++) {
             const val = String(i).padStart(3, "0");
             if (val === "005" || val === "006") {
-                options += '<option value="005|006">${val}</option>';
+                options += '<option value="005|006">' + val + '</option>';
             } else {
-                options += '<option value="${val}">${val}</option>';
+                options += '<option value="'+ val +'">' + val + '</option>';
             }
             if (val === "002") {
                 options += '<option value="002B">002B</option>';
@@ -220,6 +219,6 @@ export function setupSearchField() {
 
     startDropdown.innerHTML = generateOptions(1, 10);
     targetDropwdown.innerHTML = generateOptions(1, 10);
-    roomDropdown.innerHTML = generateOptions(1, 10);
+    //roomDropdown.innerHTML = generateOptions(1, 10);
 
 }
