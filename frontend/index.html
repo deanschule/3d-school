@@ -10,13 +10,13 @@
 </head>
 
 <body>
-
 	<!--
 		<div id="info">
 			MOUSE to look around<br/>
 			WASD to move and SPACE to jump
 		</div>-->
-	<div id="info">
+
+	<!--<div id="info">
 		<div>
 			<div id="content">
 				<h1>Welcome</h1>
@@ -24,12 +24,28 @@
 				<span>Click to Start</span>
 			</div>
 		</div>
+	</div>-->
+
+
+	<div id="container">
+		<div id="info">
+			<div>
+				<div id="content">
+					<h1>Welcome</h1>
+					<span>WSAD to move / Mouse to look around</span>
+					<span>Click to Start</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="progress-bar-container">
+			<label for="progress-bar">Loading...</label>
+			<progress id="progress-bar" value="0" max="100"></progress>
+		</div>
+
 	</div>
 
-
-	<div id="container"></div>
-
-	<script type="importmap">
+	<!--<script type="importmap">
 			{
 				"imports": {
 					"three": "../build/three.module.js",
@@ -37,7 +53,7 @@
 				}
 			}
 		</script>
-
+	-->
 	<script type="module">
 
 
@@ -46,6 +62,7 @@
 		var game = new Game();
 
 	</script>
+
 </body>
 
 

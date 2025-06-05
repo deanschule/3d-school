@@ -92,6 +92,35 @@ export default function Game() {
 	const vector2 = new THREE.Vector3();
 	const vector3 = new THREE.Vector3();
 
+
+	let arrayCount = 0;
+
+	const rows = 10;
+	const cols = 3;
+
+	const doorePositions = Array(rows).fill().map(() => Array(cols).fill(0));
+
+	const doorePositionsName = Array(rows).fill("");
+
+	//LoadScreen
+	const loadingManager = new THREE.LoadingManager();
+
+	const progressBar = document.getElementById('progress-bar');
+
+	loadingManager.onProgress = function (url, loaded, total) {
+		progressBar.value = (loaded / total) * 100;
+	}
+
+	const progressBarContainer = document.querySelector('.progress-bar-container');
+
+	loadingManager.onLoad = function () {
+		progressBarContainer.style.display = 'none';
+	}
+
+	//GLTF Loader
+	const loader = new GLTFLoader(loadingManager).setPath('./models/schule_export/schule_export/');
+
+
 	document.addEventListener('keydown', (event) => {
 
 		keyStates[event.code] = true;
@@ -250,17 +279,6 @@ export default function Game() {
 
 	}
 
-	let arrayCount = 0;
-
-	const rows = 10;
-	const cols = 3;
-
-	const doorePositions = Array(rows).fill().map(() => Array(cols).fill(0));
-
-	const doorePositionsName = Array(rows).fill("");
-
-	//GLTF Loader
-	const loader = new GLTFLoader().setPath('./models/schule_export/schule_export/');
 
 	//load school with GLTF Loader
 	loader.load('school_modify_addedd1.gltf', (gltf) => {
@@ -348,7 +366,7 @@ export default function Game() {
 
 	function openRightDoor(door) {
 
-		if (door.rotation.z >  0.2/*-1.5*/) {
+		if (door.rotation.z > 0.2/*-1.5*/) {
 			door.rotation.z -= 0.04;
 		}
 		else {
