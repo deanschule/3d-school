@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 
-import Stats from 'three/addons/libs/stats.module.js';
-
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 import { Octree } from 'three/addons/math/Octree.js';
@@ -9,16 +7,8 @@ import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 import { Capsule } from 'three/addons/math/Capsule.js';
 
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-
-import { MeshLine, MeshLineRaycast } from 'three.meshline';
-
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import { setupSearchField } from "./RoomHandler";
-import { getPath } from "./services/PathService";
-
-//import Box from './Box.js';
-//import Player from './Player.js';
 
 
 export default function Game() {
@@ -61,16 +51,9 @@ export default function Game() {
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild(renderer.domElement);
 
-	/*
-		const stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		container.appendChild(stats.domElement);
-	*/
 	const PlayerStartX = 2.7;
 
 	const PlayerStartZ = 7.7;
-
 
 	const GRAVITY = 30;
 
@@ -286,8 +269,6 @@ export default function Game() {
 		gltf.scene.name = 'school';
 		scene.add(gltf.scene);
 
-		//worldOctree.fromGraphNode(gltf.scene);
-
 		gltf.scene.traverse(child => {
 
 			if (child.isMesh) {
@@ -338,15 +319,6 @@ export default function Game() {
 		helper.name = 'schoolOctree'
 		helper.visible = false;
 		scene.add(helper);
-
-		/*
-		const gui = new GUI( { width: 200 } );
-		gui.add( { debug: false }, 'debug' )
-			.onChange( function ( value ) {
- 
-				helper.visible = value;
- 
-			} );*/
 	});
 
 	function teleportPlayerIfOob() {
@@ -363,7 +335,7 @@ export default function Game() {
 
 	function openRightDoor(door) {
 
-		if (door.rotation.z > 0.2/*-1.5*/) {
+		if (door.rotation.z > -1.5) {
 			door.rotation.z -= 0.04;
 		}
 		else {
@@ -373,7 +345,7 @@ export default function Game() {
 
 	function openLeftDoor(door) {
 
-		if (door.rotation.z < 3 /*1.5*/) {
+		if (door.rotation.z < 1.5) {
 			door.rotation.z += 0.04;
 		}
 		else {
@@ -419,17 +391,6 @@ export default function Game() {
 			}
 		});
 	}
-
-	/*const pathPoints = async (startPoint, targetPoint) => {
-		await getPath(startPoint, targetPoint)
-			.catch(error => {
-				console.error("Error fetching path from backend :", error);
-			})
-			.then(response => {
-				console.log("Path from backend: ", response);
-				return response.split(",");
-			})
-	}*/
 
 	window.showPath = function (pathString) {
 
