@@ -334,8 +334,8 @@ export default function Game() {
 	}
 
 	function openRightDoor(door) {
-
-		if (door.rotation.z > 0.2) {
+//console.log(door.rotation.z)
+		if (door.rotation.z > -1.5) {
 			door.rotation.z -= 0.04;
 		}
 		else {
@@ -344,8 +344,9 @@ export default function Game() {
 	}
 
 	function openLeftDoor(door) {
+		console.log(door.rotation.z)
 
-		if (door.rotation.z < 3) {
+		if (door.rotation.z < 1.5) {
 			door.rotation.z += 0.04;
 		}
 		else {
