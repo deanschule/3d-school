@@ -200,25 +200,35 @@ export function setupSearchField() {
         if (event.key === "Enter") searchButton.click();
     });*/
 
-    function generateOptions(min, max) {
-        let options = '<option value="">Bitte wählen</option>';
-        for (let i = min; i <= max; i++) {
-            const val = String(i).padStart(3, "0");
-            if (val === "005" || val === "006") {
-                options += '<option value="005|006">' + val + '</option>';
-            } else {
-                options += '<option value="'+ val +'">' + val + '</option>';
-            }
-            if (val === "002") {
-                options += '<option value="002B">002B</option>';
-            }
+    function generateOptions() {
 
-        }
+        let options = '<option value="">Bitte wählen</option>' +
+            '<option value="001">001</option>' +
+            '<option value="002">002</option>' +
+            '<option value="002B">002B</option>' +
+            '<option value="003">003</option>' +
+            '<option value="004">004</option>' +
+            '<option value="005|006">005</option>' +
+            '<option value="005|006">006</option>' +
+            '<option value="007">007</option>' +
+            '<option value="008">008</option>' +
+            '<option value="009|010">009</option>' +
+            '<option value="009|010">010</option>' +
+            '<option value="035">035</option>' +
+            '<option value="038">038</option>' +
+            '<option value="041">041</option>' +
+            '<option value="042|044">042</option>' +
+            '<option value="042|044">044</option>' +
+            '<option value="045">045</option>' +
+            '<option value="046|049">046</option>' +
+            '<option value="046|049">049</option>' +
+            '<option value="060">060</option>';
+
         return options;
     }
 
-    startDropdown.innerHTML = generateOptions(1, 10);
-    targetDropwdown.innerHTML = generateOptions(1, 10);
+    startDropdown.innerHTML = generateOptions();
+    targetDropwdown.innerHTML = generateOptions();
     //roomDropdown.innerHTML = generateOptions(1, 10);
 
 }
