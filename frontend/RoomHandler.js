@@ -42,7 +42,7 @@ export function setupSearchField() {
         <div style="display: flex; gap: 10px; margin-bottom: 20px; width: 100%; justify-content: space-between;">
             <div style="flex: 1;">
                 <label style="font-weight: bold;">Startraum:</label><br/>
-                <input type="text" id="startRoomInput" placeholder="z. B. 012" class="input" />
+                <input type="text" id="startRoomInput" placeholder="z. B. 004" class="input" />
                 <select id="startRoomDropdown" class="input" style="display: none;"></select>
             </div>
             <div style="flex: 1;">
