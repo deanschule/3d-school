@@ -124,13 +124,22 @@ export default function Game() {
 
 	});
 
+	let camX = camera.rotation.x;
+
 	document.body.addEventListener('mousemove', (event) => {
 
 		if (document.pointerLockElement === document.body) {
 
-			camera.rotation.y -= event.movementX / 500;
-			camera.rotation.x -= event.movementY / 500;
+			camX -= event.movementY / 500;
 
+			if (camX < 1.1 && camX > -1.1) {
+				camera.rotation.x -= event.movementY / 500;
+
+			}
+
+			camera.rotation.y -= event.movementX / 500;
+
+			console.log(camX);
 		}
 
 	});
