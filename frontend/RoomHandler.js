@@ -33,7 +33,7 @@ export function setupSearchField() {
 
     box.innerHTML = `
         <h2 style="margin-bottom: 20px; font-size: 24px;">Raumfinder</h2>
-
+        <span>ESC drücken zum sichtbar machen der Maus</span>
         <label style="margin-bottom: 15px; font-size: 14px;">
             <input type="checkbox" id="manualToggle" checked />
             Manuelle Eingabe aktivieren
