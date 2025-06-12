@@ -160,10 +160,66 @@ export function setupSearchField() {
         }
     });
     routeButton.addEventListener("click", async () => {
-        const start = manualToggle.checked ? startInput.value.trim() : startDropdown.value;
-        const target = manualToggle.checked ? targetInput.value.trim() : targetDropwdown.value;
-
+        let start = manualToggle.checked ? startInput.value.trim() : startDropdown.value;
+        let target = manualToggle.checked ? targetInput.value.trim() : targetDropwdown.value;
+        console.log(start);
         if (start && target) {
+
+            switch (start) {
+                case "005":
+                    start = "005|006";
+                    break;
+                case "006":
+                    start = "005|006";
+                    break;
+                case "009":
+                    start = "009|010";
+                    break;
+                case "010":
+                    start = "009|010";
+                    break;
+                case "042":
+                    start = "042|044";
+                    break;
+                case "044":
+                    start = "042|044";
+                    break;
+                case "046":
+                    start = "046|049";
+                    break;
+                case "049":
+                    start = "046|049";
+                    break;
+            }
+
+            switch (target) {
+                case "005":
+                    target = "005|006";
+                    break;
+                case "006":
+                    target = "005|006";
+                    break;
+                case "009":
+                    target = "009|010";
+                    break;
+                case "010":
+                    target = "009|010";
+                    break;
+                case "042":
+                    target = "042|044";
+                    break;
+                case "044":
+                    target = "042|044";
+                    break;
+                case "046":
+                    target = "046|049";
+                    break;
+                case "049":
+                    target = "046|049";
+                    break;
+            }
+            console.log(start);
+
             try {
                 overlay.style.display = "none";
                 const path = await getPath({ startPoint: start, targetPoint: target });
