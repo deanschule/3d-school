@@ -162,7 +162,6 @@ export function setupSearchField() {
     routeButton.addEventListener("click", async () => {
         let start = manualToggle.checked ? startInput.value.trim() : startDropdown.value;
         let target = manualToggle.checked ? targetInput.value.trim() : targetDropwdown.value;
-        console.log(start);
         if (start && target) {
 
             switch (start) {
@@ -218,7 +217,6 @@ export function setupSearchField() {
                     target = "046|049";
                     break;
             }
-            console.log(start);
 
             try {
                 overlay.style.display = "none";
