@@ -101,7 +101,7 @@ export default function Game() {
 	}
 
 	//GLTF Loader
-	const loader = new GLTFLoader(loadingManager).setPath('./public/models/schule_export/schule_export/');
+	const loader = new GLTFLoader(loadingManager).setPath('./models/schule_export/schule_export/');
 
 
 	document.addEventListener('keydown', (event) => {
