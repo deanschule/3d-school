@@ -138,8 +138,6 @@ export default function Game() {
 			}
 
 			camera.rotation.y -= event.movementX / 500;
-
-			console.log(camX);
 		}
 
 	});
